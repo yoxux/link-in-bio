@@ -27,6 +27,18 @@ export default function Home() {
       });
     })();
 
+    // Magnetic Buttons
+    // Found via: https://codepen.io/tdesero/pen/RmoxQg
+    const magnets = document.querySelectorAll(".magnetic");
+
+    magnets.forEach((magnet) => {
+      magnet.addEventListener("mousemove", moveMagnet);
+      magnet.addEventListener("mouseleave", leaveMagnet);
+    });
+
+    $(".btn-click.magnetic").on("mouseenter", enterClickMagnet);
+    $(".btn-click.magnetic").on("mouseleave", leaveClickMagnet);
+
     return () => {
       if (scroll.current) scroll.current.destroy();
     };
@@ -105,29 +117,9 @@ export default function Home() {
     }
   });
 
-  // const initMagneticButtons = () => {
-  //   // Magnetic Buttons
-  //   // Found via: https://codepen.io/tdesero/pen/RmoxQg
-  //   var magnets = document.querySelectorAll(".magnetic");
-  //   var strength = 100;
-
-  //   magnets.forEach((magnet) => {
-  //     magnet.addEventListener("mousemove", moveMagnet);
-  //     magnet.addEventListener("mouseleave", leaveMagnet);
-  //   });
-
-  //   $(".btn-click.magnetic").on("mouseenter", enterClickMagnet);
-  //   $(".btn-click.magnetic").on("mouseleave", leaveClickMagnet);
-  // };
-
   return (
     <main className="main">
-      <div
-        className="btn-menu magnetic"
-        data-strength={20}
-        onMouseMove={moveMagnet}
-        onMouseLeave={leaveMagnet}
-      >
+      <div className="btn-menu magnetic" data-strength={20}>
         <span className="btn-menu-inner">Menu</span>
       </div>
 
@@ -178,16 +170,7 @@ export default function Home() {
             </p>
 
             <div className="btn" data-scroll data-scroll-speed="1.5">
-              <div
-                className="btn-round btn-click magnetic"
-                data-strength="100"
-                onMouseMove={moveMagnet}
-                onMouseLeave={(e) => {
-                  leaveMagnet(e);
-                  leaveClickMagnet(e);
-                }}
-                onMouseEnter={enterClickMagnet}
-              >
+              <div className="btn-round btn-click magnetic" data-strength="100">
                 <div className="btn-fill"></div>
                 <span className="btn-text">
                   <span className="btn-text-inner">Fissala ora</span>
@@ -205,12 +188,6 @@ export default function Home() {
                 className="btn-click magnetic"
                 data-strength="25"
                 data-strength-text="15"
-                onMouseMove={moveMagnet}
-                onMouseLeave={(e) => {
-                  leaveMagnet(e);
-                  leaveClickMagnet(e);
-                }}
-                onMouseEnter={enterClickMagnet}
               >
                 <div
                   className="btn-fill"
