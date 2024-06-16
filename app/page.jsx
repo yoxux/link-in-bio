@@ -3,30 +3,35 @@
 import Link from "next/link";
 import Image from "next/image";
 
-import { useEffect, useRef } from "react";
+import { Fragment, useEffect, useRef } from "react";
 
 import $ from "jquery";
+import Lenis from "lenis";
 import gsap from "gsap";
+import ScrollTrigger from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 
-gsap.registerPlugin(useGSAP);
+gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 export default function Home() {
+  const main = useRef(null);
+  const menuBtn = useRef(null);
   const mainWrap = useRef(null);
+  const animatedParagraph = useRef(null);
 
   const scroll = useRef(null);
 
   const { contextSafe } = useGSAP();
 
   useEffect(() => {
-    (async () => {
-      const LocomotiveScroll = (await import("locomotive-scroll")).default;
+    scroll.current = new Lenis();
 
-      scroll.current = new LocomotiveScroll({
-        el: mainWrap.current,
-        smooth: true,
-      });
-    })();
+    const raf = (time) => {
+      scroll.current.raf(time);
+      requestAnimationFrame(raf);
+    };
+
+    requestAnimationFrame(raf);
 
     // Magnetic Buttons
     // Found via: https://codepen.io/tdesero/pen/RmoxQg
@@ -50,6 +55,28 @@ export default function Home() {
       $clickMagnetic.off("mouseenter", enterClickMagnet);
       $clickMagnetic.off("mouseleave", leaveClickMagnet);
     };
+  });
+
+  useGSAP(() => {
+    const triggerElement = $(animatedParagraph.current);
+    const targetElement = $(".span-line-inner", triggerElement);
+
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: triggerElement,
+        toggleActions: "play none none reverse",
+        start: "0% 90%",
+        end: "100% 0%",
+      },
+    });
+    if (targetElement) {
+      tl.to(targetElement, {
+        y: 0,
+        stagger: 0.01,
+        ease: "power3.out",
+        duration: 1,
+      });
+    }
   });
 
   const moveMagnet = contextSafe((event) => {
@@ -125,10 +152,140 @@ export default function Home() {
     }
   });
 
+  const toggleMenu = (event) => {
+    if ($(menuBtn.current).hasClass("active")) {
+      $(menuBtn.current).removeClass("active");
+      $(main.current).removeClass("nav-active");
+      if (scroll.current) scroll.current.start();
+    } else {
+      $(menuBtn.current).addClass("active");
+      $(main.current).addClass("nav-active");
+      if (scroll.current) scroll.current.stop();
+    }
+  };
+
   return (
-    <main className="main">
-      <div className="btn-menu magnetic" data-strength={20}>
+    <main className="main" ref={main}>
+      <div
+        className="btn-menu magnetic"
+        data-strength={20}
+        ref={menuBtn}
+        onClick={toggleMenu}
+      >
         <span className="btn-menu-inner">Menu</span>
+      </div>
+
+      <div className="overlay fixed-nav-back" onClick={toggleMenu}></div>
+
+      <div className="fixed-nav theme-dark">
+        <div className="fixed-nav-rounded-div">
+          <div className="rounded-div-wrap">
+            <div className="rounded-div"></div>
+          </div>
+        </div>
+        <div className="fixed-nav-inner">
+          <div className="row nav-row">
+            <h5>Navigazione</h5>
+            <div className="stripe"></div>
+            <ul className="links-wrap">
+              <li className="btn btn-link">
+                <a
+                  href="/"
+                  className="btn-click magnetic"
+                  data-strength="24"
+                  data-strength-text="12"
+                >
+                  <span className="btn-text">
+                    <span className="btn-text-inner">Home</span>
+                  </span>
+                </a>
+              </li>
+              <li className="btn btn-link">
+                <a
+                  href="/case-studies"
+                  className="btn-click magnetic"
+                  data-strength="24"
+                  data-strength-text="12"
+                >
+                  <span className="btn-text">
+                    <span className="btn-text-inner">Casi Studio</span>
+                  </span>
+                </a>
+              </li>
+              <li className="btn btn-link">
+                <a
+                  href="/about"
+                  className="btn-click magnetic"
+                  data-strength="24"
+                  data-strength-text="12"
+                >
+                  <span className="btn-text">
+                    <span className="btn-text-inner">About</span>
+                  </span>
+                </a>
+              </li>
+              <li className="btn btn-link">
+                <a
+                  href="/contact"
+                  className="btn-click magnetic"
+                  data-strength="24"
+                  data-strength-text="12"
+                >
+                  <span className="btn-text">
+                    <span className="btn-text-inner">Contatti</span>
+                  </span>
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div className="row social-row">
+            <div className="stripe"></div>
+            <div className="socials">
+              <h5>Social</h5>
+              <ul>
+                <li className="btn btn-link btn-link-external">
+                  <a
+                    href="https://www.instagram.com/itsjiayi.dev/"
+                    target="_blank"
+                    className="btn-click magnetic"
+                    data-strength="20"
+                    data-strength-text="10"
+                  >
+                    <span className="btn-text">
+                      <span className="btn-text-inner">Instagram</span>
+                    </span>
+                  </a>
+                </li>
+                <li className="btn btn-link btn-link-external">
+                  <a
+                    href="https://tiktok.com/@itsjiayi.dev"
+                    target="_blank"
+                    className="btn-click magnetic"
+                    data-strength="20"
+                    data-strength-text="10"
+                  >
+                    <span className="btn-text">
+                      <span className="btn-text-inner">Tiktok</span>
+                    </span>
+                  </a>
+                </li>
+                <li className="btn btn-link btn-link-external">
+                  <a
+                    href="https://www.linkedin.com/in/jiayizhan/"
+                    target="_blank"
+                    className="btn-click magnetic"
+                    data-strength="20"
+                    data-strength-text="10"
+                  >
+                    <span className="btn-text">
+                      <span className="btn-text-inner">LinkedIn</span>
+                    </span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div className="main-wrap" ref={mainWrap}>
@@ -172,12 +329,35 @@ export default function Home() {
 
         <section className="section calendly">
           <div className="container">
-            <p>
-              Se hai bisogno di un sito web, prenota una chiamata gratuita con
-              me per capire se ci sono i presupposti per collaborare.
+            <p ref={animatedParagraph}>
+              {"Se hai bisogno di un sito web, prenota una chiamata gratuita con me per capire se ci sono i presupposti per collaborare."
+                .split(" ")
+                .map((word, index) => (
+                  <Fragment key={`word_${index}`}>
+                    <span
+                      key={`word_${index}`}
+                      style={{
+                        position: "relative",
+                        display: "inline-flex",
+                        overflow: "hidden",
+                      }}
+                    >
+                      <span
+                        style={{
+                          position: "relative",
+                          display: "block",
+                          transform: "translateY(100%)",
+                        }}
+                        className="span-line-inner"
+                      >
+                        {word}
+                      </span>
+                    </span>{" "}
+                  </Fragment>
+                ))}
             </p>
 
-            <div className="btn" data-scroll data-scroll-speed="1.5">
+            <div className="btn" data-scroll data-speed="1.5">
               <div className="btn-round btn-click magnetic" data-strength="100">
                 <div className="btn-fill"></div>
                 <span className="btn-text">
@@ -212,11 +392,11 @@ export default function Home() {
             <div className="socials">
               <h5>Socials</h5>
               <ul>
-                <li class="btn btn-link btn-link-external">
+                <li className="btn btn-link btn-link-external">
                   <a
                     href="https://www.instagram.com/itsjiayi.dev/"
                     target="_blank"
-                    class="btn-click magnetic"
+                    className="btn-click magnetic"
                     data-strength="20"
                     data-strength-text="10"
                   >
@@ -229,7 +409,7 @@ export default function Home() {
                   <a
                     href="https://www.tiktok.com/@itsjiayi.dev"
                     target="_blank"
-                    class="btn-click magnetic"
+                    className="btn-click magnetic"
                     data-strength="20"
                     data-strength-text="10"
                   >
