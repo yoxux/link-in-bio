@@ -65,7 +65,7 @@ export default function Home() {
       scrollTrigger: {
         trigger: triggerElement,
         toggleActions: "play none none reverse",
-        start: "0% 90%",
+        start: "0% 85%",
         end: "100% 0%",
       },
     });
