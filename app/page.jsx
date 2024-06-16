@@ -61,22 +61,18 @@ export default function Home() {
     const triggerElement = $(animatedParagraph.current);
     const targetElement = $(".span-line-inner", triggerElement);
 
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: triggerElement,
-        toggleActions: "play none none reverse",
-        start: "0% 85%",
-        end: "100% 0%",
-      },
-    });
-    if (targetElement) {
-      tl.to(targetElement, {
+    const showSpans = contextSafe(() => {
+      gsap.to(targetElement, {
         y: 0,
         stagger: 0.01,
         ease: "power3.out",
         duration: 1,
       });
-    }
+    });
+
+    window.addEventListener("scroll", showSpans, { once: true });
+
+    return () => window.removeEventListener("scroll", showSpans);
   });
 
   const moveMagnet = contextSafe((event) => {
