@@ -57,7 +57,7 @@ export default function Home() {
     };
   });
 
-  useGSAP(() => {
+  useGSAP((context, contextSafe) => {
     const triggerElement = $(animatedParagraph.current);
     const targetElement = $(".span-line-inner", triggerElement);
 
