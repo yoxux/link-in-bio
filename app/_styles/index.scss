@@ -1,0 +1,217 @@
+@import "./normalize.scss";
+@import "./locomotive-scroll.scss";
+@import "./styleguide.scss";
+
+$color-dark: var(--color-dark);
+$color-dark-dark: var(--color-dark-dark);
+$color-light: var(--color-light);
+$color-blue: var(--color-blue);
+$color-blue-dark: var(--color-blue-dark);
+$color-gray: var(--color-gray);
+$color-lightgray: var(--color-lightgray);
+$color-white: var(--color-white);
+
+$color-border: var(--color-border);
+$color-border-solid: var(--color-border-solid);
+$color-border-light: var(--color-border-light);
+$color-border-solid-light: var(--color-border-solid-light);
+
+$color-text: var(--color-text);
+$color-text-light: var(--color-text-light);
+
+$alert-error: var(--alert-error);
+$alert-success: var(--alert-success);
+
+$animation-primary: var(--animation-primary);
+$animation-fast: var(--animation-fast);
+$animation-smooth: var(--animation-smooth);
+$animation-slow: var(--animation-slow);
+
+$section-padding: var(--section-padding);
+$container-padding: var(--container-padding);
+$gap-padding: var(--gap-padding);
+
+$max-width: 540px;
+$pic-height: 12rem;
+
+.main {
+  background-color: $color-white;
+  position: relative;
+  overflow-x: hidden;
+}
+
+.main-wrap {
+  min-height: 100vh;
+  padding-top: calc($section-padding / 2);
+
+  @media (max-width: 720px) {
+    padding-top: calc($section-padding);
+  }
+
+  .section {
+    width: 100%;
+    padding: 0;
+
+    .container {
+      max-width: $max-width;
+      padding-left: calc($container-padding);
+      padding-right: calc($container-padding);
+      position: relative;
+    }
+  }
+}
+
+.btn-menu {
+  position: fixed;
+  z-index: 1000;
+  top: calc($gap-padding / 2);
+  right: calc($gap-padding / 2);
+  height: 2.75em;
+  display: flex;
+  justify-self: center;
+  align-items: center;
+  cursor: pointer;
+
+  &-inner {
+    padding-left: calc($gap-padding / 3);
+    padding-right: calc($gap-padding / 2);
+
+    @media (max-width: 720px) {
+      padding-left: calc($gap-padding / 2);
+    }
+
+    &::before {
+      content: "";
+      position: absolute;
+      bottom: 50%;
+      left: 0;
+      transform: translate(-50%, 50%);
+      display: block;
+      width: calc(clamp(16px, 1.2vw, 19px) / 2.75);
+      height: calc(clamp(16px, 1.2vw, 19px) / 2.75);
+      border-radius: 50%;
+      background: $color-dark;
+    }
+  }
+}
+
+.hero {
+  position: relative;
+
+  &::after {
+    content: "";
+    position: absolute;
+    display: block;
+    left: 0;
+    bottom: 0;
+    background-color: $color-dark-dark;
+    width: 100%;
+    height: calc($pic-height / 2);
+    z-index: 1;
+  }
+
+  .jiayi-svg {
+    width: 100%;
+    height: auto;
+  }
+
+  h4 {
+    font-size: clamp(1.25em, 2vw, 2.8em);
+    padding-top: calc($section-padding / 4);
+
+    span {
+      display: block;
+    }
+  }
+
+  .picture {
+    height: $pic-height;
+    width: 100%;
+    overflow: visible;
+    position: relative;
+    z-index: 10;
+
+    .base {
+      height: 100%;
+      width: calc(100% + $container-padding);
+      border-radius: calc($pic-height / 2);
+      background-color: $color-blue-dark;
+
+      @media (max-width: 720px) {
+        width: 200%;
+      }
+    }
+
+    .image {
+      position: absolute;
+      z-index: 20;
+      font-size: clamp(1.25em, 2vw, 2.8em);
+      height: calc($pic-height + $section-padding / 4 + 6em);
+      aspect-ratio: 0.77;
+      bottom: 0;
+      right: calc(-1 * $container-padding);
+      border-bottom-right-radius: calc($pic-height / 2);
+      overflow: hidden;
+
+      @media (max-width: 720px) {
+        border-bottom-right-radius: 0;
+      }
+
+      img {
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+        object-position: left top;
+      }
+    }
+  }
+}
+
+.calendly {
+  position: relative;
+  top: -1px;
+  background-color: $color-dark-dark;
+  color: $color-white;
+
+  .container {
+    padding-top: calc($section-padding / 2);
+    padding-bottom: calc(clamp(9em, 12vw, 11em) / 2 + 1em);
+  }
+
+  p {
+    font-size: clamp(1.55em, 2.3vw, 2.5em);
+  }
+
+  .btn {
+    $height: clamp(9em, 12vw, 11em);
+
+    width: clamp(9em, 12vw, 11em);
+    height: $height;
+    border: 0;
+    position: absolute;
+    right: calc($gap-padding / 2);
+    bottom: calc(-0.5 * $height);
+
+    .btn-round {
+      height: 100%;
+      width: 100%;
+      border-radius: 50%;
+      background-color: $color-blue;
+    }
+
+    .btn-fill {
+      background-color: $color-blue-dark;
+    }
+  }
+}
+
+.footer {
+  min-height: 100vh;
+  .container {
+    padding: calc($section-padding / 2) 0;
+
+    @media (max-width: 720px) {
+      padding-top: calc($section-padding);
+    }
+  }
+}
