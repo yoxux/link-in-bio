@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import Image from "next/image";
 
 import { useEffect, useRef } from "react";
@@ -36,11 +37,18 @@ export default function Home() {
       magnet.addEventListener("mouseleave", leaveMagnet);
     });
 
-    $(".btn-click.magnetic").on("mouseenter", enterClickMagnet);
-    $(".btn-click.magnetic").on("mouseleave", leaveClickMagnet);
+    const $clickMagnetic = $(".btn-click.magnetic");
+    $clickMagnetic.on("mouseenter", enterClickMagnet);
+    $clickMagnetic.on("mouseleave", leaveClickMagnet);
 
     return () => {
       if (scroll.current) scroll.current.destroy();
+      magnets.forEach((magnet) => {
+        magnet.removeEventListener("mousemove", moveMagnet);
+        magnet.removeEventListener("mouseleave", leaveMagnet);
+      });
+      $clickMagnetic.off("mouseenter", enterClickMagnet);
+      $clickMagnetic.off("mouseleave", leaveClickMagnet);
     };
   });
 
@@ -200,6 +208,63 @@ export default function Home() {
                 </span>
               </a>
             </div>
+
+            <div className="socials">
+              <h5>Socials</h5>
+              <ul>
+                <li class="btn btn-link btn-link-external">
+                  <a
+                    href="https://www.instagram.com/itsjiayi.dev/"
+                    target="_blank"
+                    class="btn-click magnetic"
+                    data-strength="20"
+                    data-strength-text="10"
+                  >
+                    <span className="btn-text">
+                      <span className="btn-text-inner">Instagram</span>
+                    </span>
+                  </a>
+                </li>
+                <li className="btn btn-link btn-link-external">
+                  <a
+                    href="https://www.tiktok.com/@itsjiayi.dev"
+                    target="_blank"
+                    class="btn-click magnetic"
+                    data-strength="20"
+                    data-strength-text="10"
+                  >
+                    <span className="btn-text">
+                      <span className="btn-text-inner">Tiktok</span>
+                    </span>
+                  </a>
+                </li>
+                <li className="btn btn-link btn-link-external">
+                  <a
+                    href="https://www.linkedin.com/in/jiayizhan/"
+                    target="_blank"
+                    className="btn-click magnetic"
+                    data-strength="20"
+                    data-strength-text="10"
+                  >
+                    <span className="btn-text">
+                      <span className="btn-text-inner">LinkedIn</span>
+                    </span>
+                  </a>
+                </li>
+              </ul>
+              <div className="stripe"></div>
+            </div>
+
+            <svg
+              width="369"
+              height="516"
+              viewBox="0 0 369 516"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              className="final-pic"
+            >
+              <rect width="369" height="516" rx="184.5" fill="#334BD3" />
+            </svg>
           </div>
         </section>
       </div>

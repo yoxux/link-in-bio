@@ -206,12 +206,38 @@ $pic-height: 12rem;
 }
 
 .footer {
-  min-height: 100vh;
   .container {
     padding: calc($section-padding / 2) 0;
 
     @media (max-width: 720px) {
       padding-top: calc($section-padding);
+    }
+
+    .socials {
+      padding-top: 1em;
+
+      h5 {
+        text-align: center;
+      }
+
+      ul {
+        display: flex;
+        justify-content: space-evenly;
+
+        a:hover::after {
+          transform: translate(-50%, -50%) scale(1);
+        }
+      }
+
+      .stripe {
+        margin-top: 1em;
+      }
+    }
+
+    .final-pic {
+      width: 100%;
+      height: auto;
+      margin-top: calc($section-padding / 4);
     }
   }
 }
